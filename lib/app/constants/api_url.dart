@@ -18,4 +18,9 @@ class ApiUrl {
   static const profileAuth = '<url_profileAuth>';
   static const profileUpdate = '<url_profileUpdate>';
   static const userProfile = '<url_userProfile>';
+
+
+  static const serviceComplain = 'http://demo41.ninavietnam.com.vn/api/service';
+  static const addComplain = 'http://demo47.ninavietnam.org/api/addcomplain';
+
 }
