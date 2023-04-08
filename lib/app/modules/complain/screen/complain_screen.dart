@@ -5,6 +5,7 @@ import 'package:app_example/app/modules/complain/model/complain_model.dart';
 import 'package:app_example/app/modules/complain/provider/complain_state.dart';
 import 'package:app_example/app/utils/formz/form_models/text_input.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
@@ -236,33 +237,35 @@ void _showModalBottomSheet(BuildContext context) {
   });
 }
 
-
-
-
 class _BoxChatComplain extends ConsumerStatefulWidget {
   const _BoxChatComplain({
     Key? key,
   }) : super(key: key);
 
   @override
-  ConsumerState createState() => __BoxChatComplainState();
+  _BoxChatComplainState createState() => _BoxChatComplainState();
 }
 
-class __BoxChatComplainState extends ConsumerState<_BoxChatComplain> {
-  late File _image;
+class _BoxChatComplainState extends ConsumerState<_BoxChatComplain> {
+  final _formKey = GlobalKey<FormBuilderState>();
+
+  // late File? _image;
+  late File? _image = null;
+
   final picker = ImagePicker();
 
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
-    setState(() {
-      if (pickedFile != null) {
+    if (pickedFile != null) {
+      setState(() {
         _image = File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });
+      });
+    } else {
+      debugPrint('No image selected.');
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -270,29 +273,38 @@ class __BoxChatComplainState extends ConsumerState<_BoxChatComplain> {
     return Container(
       child: Stack(
         children: [
-           TextField(
-            style: const TextStyle(color: COLOR_D1,fontSize: 11),
+          TextField(
+            style: const TextStyle(color: COLOR_D1, fontSize: 11),
             maxLines: 10,
             controller: _contentComplain,
-            decoration:  InputDecoration(
-              contentPadding: EdgeInsets.symmetric(vertical: 15,horizontal: 15),
-              hintText: 'Mời bạn nhập thông tin phản hồi ...',
-              hintStyle: TextStyle(color: COLOR_D1,fontSize: 11),
-
-              errorText: state.content.invalid ? state.content.error!.getError(context) : null,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+              hintText: 'Mời bạn nhập thông tin phản hồi...',
+              hintStyle: TextStyle(color: COLOR_D1, fontSize: 11),
+              errorText:
+              state.content.invalid ? state.content.error!.getError(context) : null,
             ),
-             onChanged: (value) {
-               ref.read(complainProvider.notifier).onContentChange(value);
-             },
-
-             // thuộc tính TextField khác
+            onChanged: (value) {
+              ref.read(complainProvider.notifier).onContentChange(value);
+            },
           ),
+          if (_image != null)
+            Positioned(
+              bottom: 0,
+              left: 0,
+              child: Image.file(
+                _image!,
+                width: 60,
+                height: 60,
+                fit: BoxFit.cover,
+              ),
+            ),
           Positioned(
             bottom: 0,
             right: 0,
             child: IconButton(
               onPressed: getImage,
-              icon: const Icon(Icons.image,color: COLOR_D1,),
+              icon: const Icon(Icons.image, color: COLOR_D1),
             ),
           ),
         ],
@@ -300,3 +312,70 @@ class __BoxChatComplainState extends ConsumerState<_BoxChatComplain> {
     );
   }
 }
+
+
+
+
+//
+// class _BoxChatComplain extends ConsumerStatefulWidget {
+//   const _BoxChatComplain({
+//     Key? key,
+//   }) : super(key: key);
+//
+//   @override
+//   ConsumerState createState() => __BoxChatComplainState();
+// }
+//
+// class __BoxChatComplainState extends ConsumerState<_BoxChatComplain> {
+//   final _formKey = GlobalKey<FormBuilderState>();
+//   late File? _image;
+//   final picker = ImagePicker();
+//
+//   Future getImage() async {
+//     final pickedFile = await picker.getImage(source: ImageSource.gallery);
+//
+//     setState(() {
+//       if (pickedFile != null) {
+//         _image = File(pickedFile.path);
+//       } else {
+//         print('No image selected.');
+//       }
+//     });
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final state = ref.watch(complainProvider);
+//     return Container(
+//       child: Stack(
+//         children: [
+//            TextField(
+//             style: const TextStyle(color: COLOR_D1,fontSize: 11),
+//             maxLines: 10,
+//             controller: _contentComplain,
+//             decoration:  InputDecoration(
+//               contentPadding: EdgeInsets.symmetric(vertical: 15,horizontal: 15),
+//               hintText: 'Mời bạn nhập thông tin phản hồi ...',
+//               hintStyle: TextStyle(color: COLOR_D1,fontSize: 11),
+//
+//               errorText: state.content.invalid ? state.content.error!.getError(context) : null,
+//             ),
+//              onChanged: (value) {
+//                ref.read(complainProvider.notifier).onContentChange(value);
+//              },
+//
+//              // thuộc tính TextField khác
+//           ),
+//           Positioned(
+//             bottom: 0,
+//             right: 0,
+//             child: IconButton(
+//               onPressed: getImage,
+//               icon: const Icon(Icons.image,color: COLOR_D1,),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
