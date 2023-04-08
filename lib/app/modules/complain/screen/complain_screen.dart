@@ -14,7 +14,6 @@ import '../../widgets/dialog/material_dialogs.dart';
 import '../../widgets/loading/loading.dart';
 import '../constants/app_style.dart';
 import '../constants/app_color.dart';
-import '../provider/complain_controller.dart';
 import 'widget/complain_item.dart';
 
 
@@ -36,13 +35,20 @@ class ComplainScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     final complainList =  ref.watch(complainProvider.notifier);
-    final state = ref.watch(complainInputProvider);
-    ref.listen(complainInputProvider, (previous, next) {
+    final state = ref.watch(complainProvider);
+    ref.listen(complainProvider, (previous, next) {
       if (next.status == FormzStatus.submissionInProgress) {
         Loading(context).start();
       }
       if (next.status == FormzStatus.submissionSuccess) {
         Loading(context).stop();
+        Dialogs.materialDialog(
+          context: context,
+          lottieBuilder: Lottie.asset(AppUI.animationIconSuccess),
+          title: "Gửi thành công!",
+          barrierDismissible: false,
+          autoHide: Duration(seconds: 3),
+        );
       }
       if (next.status == FormzStatus.submissionFailure) {
         Loading(context).stop();
@@ -91,14 +97,12 @@ class ComplainScreen extends ConsumerWidget {
                   hintText: 'Chọn dịch vụ',
                   hintStyle: TextStyle(color: COLOR_D1,fontSize: 11),
                 ),
-                onChanged: (value) {
-                  ref.read(complainInputProvider.notifier).onServiceChange(value);
-                },
-
-
                 onTap: () {
                   _showModalBottomSheet(context);
                 },
+                // onChanged: (value) {
+                //   ref.read(complainProvider.notifier).onServiceChange(value);
+                // },
               ),
               const SizedBox(height: 25,),
               const _BoxChatComplain(),
@@ -129,7 +133,14 @@ class ComplainScreen extends ConsumerWidget {
             Expanded(child: ElevatedButton(
               onPressed: () {
                 contentComplain = _contentComplain.text;
-                complainList.addComplain(ComplainModel(content: contentComplain, dichvu: selectedName));
+                if (state.status == FormzStatus.valid ||
+                    state.status == FormzStatus.submissionFailure) {
+                  print("đã kết nối");
+                  complainList.addComplain(ComplainModel(content: contentComplain, dichvu: selectedName));
+                  Navigator.pop(context);
+                }else{
+                  print("lỗi kết nối");
+                }
 
                 // addComplain
               },
@@ -255,28 +266,7 @@ class __BoxChatComplainState extends ConsumerState<_BoxChatComplain> {
 
   @override
   Widget build(BuildContext context) {
-
-    final state = ref.watch(complainInputProvider);
-    ref.listen(complainInputProvider, (previous, next) {
-      if (next.status == FormzStatus.submissionInProgress) {
-        Loading(context).start();
-      }
-      if (next.status == FormzStatus.submissionSuccess) {
-        Loading(context).stop();
-      }
-      if (next.status == FormzStatus.submissionFailure) {
-        Loading(context).stop();
-        Dialogs.materialDialog(
-          context: context,
-          lottieBuilder: Lottie.asset(AppUI.animationIconError),
-          title: next.errorMessage,
-          barrierDismissible: false,
-          autoHide: Duration(seconds: 3),
-        );
-      }
-    });
-
-
+    final state = ref.watch(complainProvider);
     return Container(
       child: Stack(
         children: [
@@ -292,7 +282,7 @@ class __BoxChatComplainState extends ConsumerState<_BoxChatComplain> {
               errorText: state.content.invalid ? state.content.error!.getError(context) : null,
             ),
              onChanged: (value) {
-               ref.read(complainInputProvider.notifier).onContentChange(value);
+               ref.read(complainProvider.notifier).onContentChange(value);
              },
 
              // thuộc tính TextField khác

@@ -34,59 +34,48 @@ class ComplainController extends StateNotifier<ComplainState> {
     state = state.copyWith(isLoading: false, listComplain: listComplainNew);
   }
 
-  // thêm khiếu nại
-  Future<void> addComplain(ComplainModel complain) async {
-    try {
-      // thực hiện gửi khiếu nại
-      final result = await _complainRepository.postComplain(complain);
+  // Kiểm tra input
+  // void onServiceChange(String value) {
+  //   final dichvu = TextInput.dirty(value);
+  //   print("object:$dichvu");
+  //   state = state.copyWith(
+  //     dichvu: dichvu,
+  //     status: Formz.validate([dichvu, state.content]),
+  //   );
+  // }
+  void onContentChange(String value) {
+    final content = TextInput.dirty(value);
+    print("object:$content");
+    state = state.copyWith(
+      content: content,
+      status: Formz.validate([content]),
+    );
+  }
 
+  Future<void> addComplain(ComplainModel complain) async {
+    state = state.copyWith(status: FormzStatus.submissionInProgress);
+    if (Formz.validate([state.content]) == FormzStatus.invalid) {
+      state = state.copyWith(status: Formz.validate([state.content]));
+      return;
+    }
+    try {
+      final result = await _complainRepository.postComplain(complain);
       if (result) {
-        // nếu gửi khiếu nại thành công thì cập nhật lại danh sách khiếu nại
         final List<ComplainModel>? listComplainNew = await _complainRepository.getCurrentComplain();
-        state = state.copyWith(listComplain: listComplainNew);
+        state = state.copyWith(listComplain: listComplainNew,status: FormzStatus.submissionSuccess);
       } else {
+        state = state.copyWith(status: FormzStatus.submissionFailure);
         throw Exception('Failed to post complain');
       }
     } catch (e) {
+      state = state.copyWith(status: FormzStatus.submissionFailure, errorMessage: e.toString());
       throw Exception('Failed to post complain: $e');
     }
   }
+
+
 }
+
 //---------------------------
-
-final complainInputProvider =
-StateNotifierProvider.autoDispose<ComplainInputController, ComplainInputState>((ref) {
-  return ComplainInputController(ref);
-});
-
-class ComplainInputController extends StateNotifier<ComplainInputState> {
-
-  final Ref ref;
-
-  ComplainInputController(this.ref) : super(const ComplainInputState()) {
-    init();
-  }
-
-  init() async {
-
-  }
-
-  void onServiceChange(String value) {
-    final dichvu = TextInput.dirty(value);
-    state = state.copyWith(
-      dichvu: dichvu,
-      status: Formz.validate([dichvu, state.dichvu]),
-    );
-  }
-  void onContentChange(String value) {
-    print(value);
-    final content = TextInput.dirty(value);
-    state = state.copyWith(
-      content: content,
-      status: Formz.validate([content, state.content]),
-    );
-  }
-}
-
 
 

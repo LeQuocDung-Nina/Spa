@@ -29,15 +29,40 @@ final serviceComplainProvider = StateNotifierProvider<ServiceController, Service
 );
 
 //Khiếu nại
-class ComplainState  {
+class ComplainState extends Equatable {
   final List<ComplainModel>? listComplain;
   final bool isLoading;
-  ComplainState({this.listComplain, this.isLoading = true});
-  ComplainState copyWith({List<ComplainModel>? listComplain, bool? isLoading}) {
+  final TextInput content;
+  final TextInput dichvu;
+  final FormzStatus status;
+  final String? errorMessage;
+  const ComplainState({
+    this.listComplain,
+    this.isLoading = true,
+    this.content = const TextInput.pure(),
+    this.dichvu = const TextInput.pure(),
+    this.status = FormzStatus.pure,
+    this.errorMessage = '',
+  });
+  ComplainState copyWith({
+    List<ComplainModel>? listComplain,
+    bool? isLoading,
+    TextInput? content,
+    TextInput? dichvu,
+    FormzStatus? status,
+    String? errorMessage,
+  }) {
     return ComplainState(
         isLoading: isLoading ?? this.isLoading,
-        listComplain: listComplain ?? this.listComplain);
+        listComplain: listComplain ?? this.listComplain,
+        dichvu: dichvu ?? this.dichvu,
+        content: content ?? this.content,
+        status: status ?? this.status,
+        errorMessage: errorMessage ?? this.errorMessage,
+    );
   }
+  @override
+  List<Object> get props => [content, dichvu, status, errorMessage!];
 }
 // final complainMRepositoryProvider = Provider<ComplainRepository>((ref) {
 //   return ComplainRepository();
@@ -50,34 +75,34 @@ final complainProvider = StateNotifierProvider<ComplainController, ComplainState
 
 //-----------------------------------------------------------------------
 
-class ComplainInputState extends Equatable {
-  final TextInput content;
-  final TextInput dichvu;
-  final FormzStatus status;
-  final String? errorMessage;
-
-  const ComplainInputState({
-    this.content = const TextInput.pure(),
-    this.dichvu = const TextInput.pure(),
-    this.status = FormzStatus.pure,
-    this.errorMessage = '',
-  });
-
-  ComplainInputState copyWith({
-    TextInput? content,
-    TextInput? dichvu,
-    FormzStatus? status,
-    String? errorMessage,
-  }) {
-    return ComplainInputState(
-      dichvu: dichvu ?? this.dichvu,
-      content: content ?? this.content,
-      status: status ?? this.status,
-      errorMessage: errorMessage ?? this.errorMessage,
-    );
-  }
-
-  @override
-  List<Object> get props => [content, dichvu, status, errorMessage!];
-}
-
+// class ComplainInputState extends Equatable {
+//   final TextInput content;
+//   final TextInput dichvu;
+//   final FormzStatus status;
+//   final String? errorMessage;
+//
+//   const ComplainInputState({
+//     this.content = const TextInput.pure(),
+//     this.dichvu = const TextInput.pure(),
+//     this.status = FormzStatus.pure,
+//     this.errorMessage = '',
+//   });
+//
+//   ComplainInputState copyWith({
+//     TextInput? content,
+//     TextInput? dichvu,
+//     FormzStatus? status,
+//     String? errorMessage,
+//   }) {
+//     return ComplainInputState(
+//       dichvu: dichvu ?? this.dichvu,
+//       content: content ?? this.content,
+//       status: status ?? this.status,
+//       errorMessage: errorMessage ?? this.errorMessage,
+//     );
+//   }
+//
+//   @override
+//   List<Object> get props => [content, dichvu, status, errorMessage!];
+// }
+//
