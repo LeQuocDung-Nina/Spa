@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import '../../../utils/formz/form_models/text_input.dart';
 import '../../../utils/formz/formz.dart';
 import '../model/complain_model.dart';
@@ -37,10 +39,10 @@ class ComplainController extends StateNotifier<ComplainState> {
   // Kiểm tra input
   // void onServiceChange(String value) {
   //   final dichvu = TextInput.dirty(value);
-  //   print("object:$dichvu");
+  //
   //   state = state.copyWith(
   //     dichvu: dichvu,
-  //     status: Formz.validate([dichvu, state.content]),
+  //     status: Formz.validate([dichvu]),
   //   );
   // }
   void onContentChange(String value) {
@@ -52,14 +54,14 @@ class ComplainController extends StateNotifier<ComplainState> {
     );
   }
 
-  Future<void> addComplain(ComplainModel complain) async {
+  Future<void> addComplain(ComplainModel complain, File file_attach) async {
     state = state.copyWith(status: FormzStatus.submissionInProgress);
     if (Formz.validate([state.content]) == FormzStatus.invalid) {
       state = state.copyWith(status: Formz.validate([state.content]));
       return;
     }
     try {
-      final result = await _complainRepository.postComplain(complain);
+      final result = await _complainRepository.postComplain(complain,file_attach);
       if (result) {
         final List<ComplainModel>? listComplainNew = await _complainRepository.getCurrentComplain();
         state = state.copyWith(listComplain: listComplainNew,status: FormzStatus.submissionSuccess);

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:app_example/app/modules/complain/model/complain_model.dart';
 import 'package:app_example/app/modules/complain/model/service_model.dart';
@@ -55,14 +56,26 @@ class ComplainRepository {
     }
   }
   //post khiếu nại
-  Future<bool> postComplain(ComplainModel complain) async {
+  Future<bool> postComplain(ComplainModel complain, File filePhoto) async {
     try {
-      FormData formData = FormData.fromMap({
-        'fullname':"Le quoc dung",
-        'dichvu': complain.dichvu,
-        'content': complain.content,
-        // thêm các trường khác tương ứng với ComplainModel
-      });
+      FormData formData;
+      if (filePhoto.path != '') {
+        final MultipartFile photo = await MultipartFile.fromFile(filePhoto.path, filename: "file_attach.png");
+        formData = FormData.fromMap({
+          'fullname': "Le quoc dung",
+          'dichvu': complain.dichvu,
+          'content': complain.content,
+          "file_attach": photo,
+          // thêm các trường khác tương ứng với ComplainModel
+        });
+      } else {
+        formData = FormData.fromMap({
+          'fullname': "Le quoc dung",
+          'dichvu': complain.dichvu,
+          'content': complain.content,
+          // thêm các trường khác tương ứng với ComplainModel
+        });
+      }
 
       final response = await _apiClient.post(ApiUrl.addComplain, data: formData);
 
@@ -75,6 +88,8 @@ class ComplainRepository {
       throw Exception('Failed to post service: $e');
     }
   }
+
+
 
 
 }

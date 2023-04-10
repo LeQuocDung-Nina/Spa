@@ -24,7 +24,7 @@ mixin _$ComplainModel {
   String? get fullname => throw _privateConstructorUsedError;
   String? get content => throw _privateConstructorUsedError;
   String? get dichvu => throw _privateConstructorUsedError;
-  String? get photo => throw _privateConstructorUsedError;
+  String? get file_attach => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +43,7 @@ abstract class $ComplainModelCopyWith<$Res> {
       String? fullname,
       String? content,
       String? dichvu,
-      String? photo});
+      String? file_attach});
 }
 
 /// @nodoc
@@ -63,7 +63,7 @@ class _$ComplainModelCopyWithImpl<$Res, $Val extends ComplainModel>
     Object? fullname = freezed,
     Object? content = freezed,
     Object? dichvu = freezed,
-    Object? photo = freezed,
+    Object? file_attach = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -82,9 +82,9 @@ class _$ComplainModelCopyWithImpl<$Res, $Val extends ComplainModel>
           ? _value.dichvu
           : dichvu // ignore: cast_nullable_to_non_nullable
               as String?,
-      photo: freezed == photo
-          ? _value.photo
-          : photo // ignore: cast_nullable_to_non_nullable
+      file_attach: freezed == file_attach
+          ? _value.file_attach
+          : file_attach // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -103,7 +103,7 @@ abstract class _$$_ComplainModelCopyWith<$Res>
       String? fullname,
       String? content,
       String? dichvu,
-      String? photo});
+      String? file_attach});
 }
 
 /// @nodoc
@@ -121,7 +121,7 @@ class __$$_ComplainModelCopyWithImpl<$Res>
     Object? fullname = freezed,
     Object? content = freezed,
     Object? dichvu = freezed,
-    Object? photo = freezed,
+    Object? file_attach = freezed,
   }) {
     return _then(_$_ComplainModel(
       id: freezed == id
@@ -140,9 +140,9 @@ class __$$_ComplainModelCopyWithImpl<$Res>
           ? _value.dichvu
           : dichvu // ignore: cast_nullable_to_non_nullable
               as String?,
-      photo: freezed == photo
-          ? _value.photo
-          : photo // ignore: cast_nullable_to_non_nullable
+      file_attach: freezed == file_attach
+          ? _value.file_attach
+          : file_attach // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -156,7 +156,7 @@ class _$_ComplainModel implements _ComplainModel {
       this.fullname,
       required this.content,
       required this.dichvu,
-      this.photo});
+      this.file_attach});
 
   factory _$_ComplainModel.fromJson(Map<String, dynamic> json) =>
       _$$_ComplainModelFromJson(json);
@@ -170,11 +170,11 @@ class _$_ComplainModel implements _ComplainModel {
   @override
   final String? dichvu;
   @override
-  final String? photo;
+  final String? file_attach;
 
   @override
   String toString() {
-    return 'ComplainModel(id: $id, fullname: $fullname, content: $content, dichvu: $dichvu, photo: $photo)';
+    return 'ComplainModel(id: $id, fullname: $fullname, content: $content, dichvu: $dichvu, file_attach: $file_attach)';
   }
 
   @override
@@ -187,13 +187,14 @@ class _$_ComplainModel implements _ComplainModel {
                 other.fullname == fullname) &&
             (identical(other.content, content) || other.content == content) &&
             (identical(other.dichvu, dichvu) || other.dichvu == dichvu) &&
-            (identical(other.photo, photo) || other.photo == photo));
+            (identical(other.file_attach, file_attach) ||
+                other.file_attach == file_attach));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, fullname, content, dichvu, photo);
+      Object.hash(runtimeType, id, fullname, content, dichvu, file_attach);
 
   @JsonKey(ignore: true)
   @override
@@ -215,7 +216,7 @@ abstract class _ComplainModel implements ComplainModel {
       final String? fullname,
       required final String? content,
       required final String? dichvu,
-      final String? photo}) = _$_ComplainModel;
+      final String? file_attach}) = _$_ComplainModel;
 
   factory _ComplainModel.fromJson(Map<String, dynamic> json) =
       _$_ComplainModel.fromJson;
@@ -229,7 +230,7 @@ abstract class _ComplainModel implements ComplainModel {
   @override
   String? get dichvu;
   @override
-  String? get photo;
+  String? get file_attach;
   @override
   @JsonKey(ignore: true)
   _$$_ComplainModelCopyWith<_$_ComplainModel> get copyWith =>

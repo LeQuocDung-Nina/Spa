@@ -12,7 +12,7 @@ _$_ComplainModel _$$_ComplainModelFromJson(Map<String, dynamic> json) =>
       fullname: json['fullname'] as String?,
       content: json['content'] as String?,
       dichvu: json['dichvu'] as String?,
-      photo: json['photo'] as String?,
+      file_attach: json['file_attach'] as String?,
     );
 
 Map<String, dynamic> _$$_ComplainModelToJson(_$_ComplainModel instance) =>
@@ -21,5 +21,5 @@ Map<String, dynamic> _$$_ComplainModelToJson(_$_ComplainModel instance) =>
       'fullname': instance.fullname,
       'content': instance.content,
       'dichvu': instance.dichvu,
-      'photo': instance.photo,
+      'file_attach': instance.file_attach,
     };

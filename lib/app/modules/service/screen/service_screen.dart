@@ -169,7 +169,7 @@ class _UnusedService extends ConsumerWidget {
       crossAxisCount: 1,
       mainAxisSpacing: 20,
       crossAxisSpacing: 0,
-      itemBuilder: (context, index) => ServiceItem(),
+      itemBuilder: (context, index) => const ServiceItem(),
       // itemBuilder: (context, index) => Container(),
     );
   }

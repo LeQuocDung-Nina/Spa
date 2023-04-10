@@ -1,12 +1,15 @@
+import 'package:app_example/app/modules/history/booking/model/booking_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../../constants/app_color.dart';
 
+
 class BookingHistoryItem extends ConsumerWidget {
-  const BookingHistoryItem({
+  const BookingHistoryItem({required this.bookingModel,
     Key? key,
   }) : super(key: key);
+
+  final BookingModel bookingModel;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -32,7 +35,7 @@ class BookingHistoryItem extends ConsumerWidget {
                       color: COLOR_BGTIME1,
                       borderRadius: BorderRadius.only(topRight: Radius.circular(10),topLeft: Radius.circular(10))
                     ),
-                    child: const Text('23',style: TextStyle(color: COLOR_D2,fontSize: 25,fontWeight: FontWeight.bold,))
+                    child: Text(bookingModel.booking_time,style: const TextStyle(color: COLOR_D2,fontSize: 25,fontWeight: FontWeight.bold,))
                    ),
                 Container(
                     width: 50,
@@ -47,10 +50,10 @@ class BookingHistoryItem extends ConsumerWidget {
           ),
           Expanded(child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Text('Đặt lịch',style: TextStyle(color: COLOR_D1,fontSize: 15,fontWeight: FontWeight.w400),),
-              SizedBox(height: 10,),
-              Text('Chăm sóc da theo liệu trình',style: TextStyle(color: COLOR_D1,fontSize: 11,fontWeight: FontWeight.w400),),
+            children:  [
+              const Text('Đặt lịch',style: TextStyle(color: COLOR_D1,fontSize: 15,fontWeight: FontWeight.w400),),
+              const SizedBox(height: 10,),
+              Text(bookingModel.name_service ,style: const TextStyle(color: COLOR_D1,fontSize: 11,fontWeight: FontWeight.w400),),
             ],
           )),
           const Icon(Icons.date_range,color: COLOR_D1,size: 35,),

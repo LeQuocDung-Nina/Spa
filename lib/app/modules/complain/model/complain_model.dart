@@ -9,7 +9,7 @@ class ComplainModel with _$ComplainModel {
     String? fullname,
     required String? content,
     required String? dichvu,
-    String? photo,
+    String? file_attach,
 
 
 

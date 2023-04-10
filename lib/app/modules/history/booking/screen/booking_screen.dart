@@ -1,10 +1,10 @@
-
+import 'package:app_example/app/modules/history/booking/model/booking_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-
 import '../../../service/constants/app_color.dart';
 import '../../../service/constants/app_style.dart';
+import '../provider/booking_state.dart';
 import 'widget/booking_history_item.dart';
 
 class BookingHistoryScreen extends ConsumerWidget {
@@ -14,6 +14,8 @@ class BookingHistoryScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
+
     return Scaffold(
       backgroundColor: COLOR_BG,
       appBar: AppBar(
@@ -50,17 +52,22 @@ class _ListBookingHistory extends ConsumerWidget {
   const _ListBookingHistory({
     Key? key,
   }) : super(key: key);
+  
+  
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final stateBooking = ref.watch(bookingProvider);
+
     return AlignedGridView.count(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: 30,
+      itemCount: stateBooking.listBooking!.length,
       crossAxisCount: 1,
       mainAxisSpacing: 20,
       crossAxisSpacing: 0,
-      itemBuilder: (context, index) => BookingHistoryItem(),
+      itemBuilder: (context, index) => BookingHistoryItem(
+          bookingModel: BookingModel(name_service: stateBooking.listBooking![index].name_service, booking_time: stateBooking.listBooking![index].booking_time)),
     );
   }
 }
