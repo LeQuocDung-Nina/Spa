@@ -52,7 +52,7 @@ class ComplainScreen extends ConsumerWidget {
           lottieBuilder: Lottie.asset(AppUI.animationIconSuccess),
           title: "Gửi thành công!",
           barrierDismissible: false,
-          autoHide: Duration(seconds: 3),
+          autoHide:const Duration(seconds: 1),
         );
       }
       if (next.status == FormzStatus.submissionFailure) {
@@ -62,7 +62,7 @@ class ComplainScreen extends ConsumerWidget {
           lottieBuilder: Lottie.asset(AppUI.animationIconError),
           title: next.errorMessage,
           barrierDismissible: false,
-          autoHide: Duration(seconds: 3),
+          autoHide:const Duration(seconds: 1),
         );
       }
     });
@@ -98,9 +98,9 @@ class ComplainScreen extends ConsumerWidget {
                 style: const TextStyle(color: COLOR_D1,fontSize: 11),
                 decoration:  InputDecoration(
                   errorText: state.dichvu.invalid ? state.dichvu.error!.getError(context) : null,
-                  suffixIcon: Icon(Icons.navigate_next,color: COLOR_D1,size: 15,),
+                  suffixIcon: const Icon(Icons.navigate_next,color: COLOR_D1,size: 15,),
                   hintText: 'Chọn dịch vụ',
-                  hintStyle: TextStyle(color: COLOR_D1,fontSize: 11),
+                  hintStyle: const TextStyle(color: COLOR_D1,fontSize: 11),
                 ),
                 onTap: () {
                   _showModalBottomSheet(context);
@@ -154,7 +154,7 @@ class ComplainScreen extends ConsumerWidget {
                     lottieBuilder: Lottie.asset(AppUI.animationIconError),
                     title: "Chưa nhập thông tin!",
                     barrierDismissible: false,
-                    autoHide: Duration(seconds: 3),
+                    autoHide:const Duration(seconds: 1),
                   );
                 }
 

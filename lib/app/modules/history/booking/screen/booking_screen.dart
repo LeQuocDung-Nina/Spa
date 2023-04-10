@@ -52,14 +52,13 @@ class _ListBookingHistory extends ConsumerWidget {
   const _ListBookingHistory({
     Key? key,
   }) : super(key: key);
-  
-  
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final stateBooking = ref.watch(bookingProvider);
-
-    return AlignedGridView.count(
+    return
+    (stateBooking.listBooking?.length != null) ?
+     AlignedGridView.count(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: stateBooking.listBooking!.length,
@@ -68,6 +67,6 @@ class _ListBookingHistory extends ConsumerWidget {
       crossAxisSpacing: 0,
       itemBuilder: (context, index) => BookingHistoryItem(
           bookingModel: BookingModel(name_service: stateBooking.listBooking![index].name_service, booking_time: stateBooking.listBooking![index].booking_time)),
-    );
+    ):const Center(child: Text('Chưa có lịch sử',style: TextStyle(color: COLOR_D1),));
   }
 }

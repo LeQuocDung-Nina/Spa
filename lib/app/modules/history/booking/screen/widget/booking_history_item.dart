@@ -2,7 +2,7 @@ import 'package:app_example/app/modules/history/booking/model/booking_model.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../constants/app_color.dart';
-
+import 'package:intl/intl.dart';
 
 class BookingHistoryItem extends ConsumerWidget {
   const BookingHistoryItem({required this.bookingModel,
@@ -13,6 +13,12 @@ class BookingHistoryItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
+    int timestamp = int.parse(bookingModel.booking_time)*1000; // timestamp tính bằng milliseconds
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp);
+    String day = DateFormat('d').format(date);
+    String monthYear = DateFormat('MM yyyy').format(date);
+
     return Container(
       padding: const EdgeInsets.all(15),
       decoration:  BoxDecoration(
@@ -35,7 +41,7 @@ class BookingHistoryItem extends ConsumerWidget {
                       color: COLOR_BGTIME1,
                       borderRadius: BorderRadius.only(topRight: Radius.circular(10),topLeft: Radius.circular(10))
                     ),
-                    child: Text(bookingModel.booking_time,style: const TextStyle(color: COLOR_D2,fontSize: 25,fontWeight: FontWeight.bold,))
+                    child: Text(day,style: const TextStyle(color: COLOR_D2,fontSize: 25,fontWeight: FontWeight.bold,))
                    ),
                 Container(
                     width: 50,
@@ -44,7 +50,7 @@ class BookingHistoryItem extends ConsumerWidget {
                     decoration:const BoxDecoration(
                       color: COLOR_BGTIME2,
                     ),
-                    child: const Text('Feb 2023',style: TextStyle(color: COLOR_D2,fontSize: 8,backgroundColor: COLOR_BGTIME2,))),
+                    child:  Text(monthYear,style: const TextStyle(color: COLOR_D2,fontSize: 8,backgroundColor: COLOR_BGTIME2,))),
               ],
             ),
           ),
