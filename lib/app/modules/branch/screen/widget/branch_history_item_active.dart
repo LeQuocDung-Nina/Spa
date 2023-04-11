@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../constants/app_color.dart';
 
-class BranchItem extends ConsumerWidget {
-  const BranchItem( {required this.branchModel,
+class BranchItemActive extends ConsumerWidget {
+  const BranchItemActive( {required this.branchModel,
     Key? key,
   }) : super(key: key);
 
@@ -39,6 +39,17 @@ class BranchItem extends ConsumerWidget {
               Row(
                 children: [
                   Expanded(child: Text(branchModel.namevi,style: const TextStyle(color: COLOR_D1,fontSize: 13),)),
+
+                   Container(
+                       padding: const EdgeInsets.symmetric(
+                           vertical: 5, horizontal: 10),
+                       margin: const EdgeInsets.only(left: 10),
+                       decoration: BoxDecoration(
+                         color: COLOR_WHITE,
+                         borderRadius: BorderRadius.circular(5),
+                       ),
+                       child: const Text('Trụ sở chính',
+                         style: TextStyle(color: COLOR_BLACK, fontSize: 9),)),
                 ],
               ),
               const SizedBox(height: 10,),

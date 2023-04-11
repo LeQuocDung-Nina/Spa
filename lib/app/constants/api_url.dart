@@ -23,5 +23,6 @@ class ApiUrl {
   static const serviceComplain = 'http://demo41.ninavietnam.com.vn/api/service';
   static const addComplain = 'http://demo47.ninavietnam.org/api/addcomplain';
   static const booking = 'http://demo41.ninavietnam.com.vn/api/booking';
+  static const bookingAddress = 'http://demo41.ninavietnam.com.vn/api/booking-address';
 
 }
