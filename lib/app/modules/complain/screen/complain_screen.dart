@@ -9,6 +9,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../../constants/app_ui.dart';
 import '../../../utils/formz/formz.dart';
 import '../../widgets/dialog/material_dialogs.dart';
@@ -16,6 +17,7 @@ import '../../widgets/loading/loading.dart';
 import '../constants/app_style.dart';
 import '../constants/app_color.dart';
 import 'widget/complain_item.dart';
+
 
 
 String selectedName = '';
@@ -263,11 +265,7 @@ class _BoxChatComplain extends ConsumerStatefulWidget {
 
 class _BoxChatComplainState extends ConsumerState<_BoxChatComplain> {
   final _formKey = GlobalKey<FormBuilderState>();
-
-
-
   final picker = ImagePicker();
-
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
@@ -281,52 +279,74 @@ class _BoxChatComplainState extends ConsumerState<_BoxChatComplain> {
     }
   }
 
+  // Future getImage() async {
+  //   // Kiểm tra xem ứng dụng đã được cấp quyền truy cập vào thư viện ảnh chưa
+  //   var status = await Permission.photos.status;
+  //   if (!status.isGranted) {
+  //     // Yêu cầu quyền truy cập thư viện ảnh
+  //     status = await Permission.photos.request();
+  //     if (!status.isGranted) {
+  //       // Nếu người dùng từ chối, hiển thị thông báo hoặc xử lý tùy ý
+  //       return;
+  //     }
+  //   }
+  //
+  //   final pickedFile = await picker.getImage(source: ImageSource.gallery);
+  //
+  //   if (pickedFile != null) {
+  //     setState(() {
+  //       _image = File(pickedFile.path);
+  //       photoComplain = _image!.path;
+  //     });
+  //   } else {
+  //     debugPrint('No image selected.');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(complainProvider);
-    return Container(
-      child: Stack(
-        children: [
-          TextField(
-            style: const TextStyle(color: COLOR_D1, fontSize: 11),
-            maxLines: 10,
-            controller: _contentComplain,
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-              hintText: 'Mời bạn nhập thông tin phản hồi...',
-              hintStyle: TextStyle(color: COLOR_D1, fontSize: 11),
-              errorText:
-              state.content.invalid ? state.content.error!.getError(context) : null,
-            ),
-            onChanged: (value) {
-              ref.read(complainProvider.notifier).onContentChange(value);
-            },
+    return Stack(
+      children: [
+        TextField(
+          style: const TextStyle(color: COLOR_D1, fontSize: 11),
+          maxLines: 10,
+          controller: _contentComplain,
+          decoration: InputDecoration(
+            contentPadding:const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+            hintText: 'Mời bạn nhập thông tin phản hồi...',
+            hintStyle: const TextStyle(color: COLOR_D1, fontSize: 11),
+            errorText:
+            state.content.invalid ? state.content.error!.getError(context) : null,
           ),
-          if (_image != null)
-            Positioned(
-              bottom: 0,
-              left: 0,
-              child: Image.file(
-                _image!,
-                width: 60,
-                height: 60,
-                fit: BoxFit.cover,
-              ),
-            ),
+          onChanged: (value) {
+            ref.read(complainProvider.notifier).onContentChange(value);
+          },
+        ),
+        if (_image != null)
           Positioned(
             bottom: 0,
-            right: 0,
-            child: IconButton(
-              onPressed: getImage,
-              icon: const Icon(Icons.image, color: COLOR_D1),
+            left: 0,
+            child: Image.file(
+              _image!,
+              width: 60,
+              height: 60,
+              fit: BoxFit.cover,
             ),
           ),
-        ],
-      ),
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: IconButton(
+            onPressed: getImage,
+            icon: const Icon(Icons.image, color: COLOR_D1),
+          ),
+        ),
+      ],
     );
   }
 }
+
 
 
 
